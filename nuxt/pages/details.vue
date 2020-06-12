@@ -5,6 +5,9 @@
         <v-row
           justify="center"
           >
+          <v-btn text icon to="/pending">
+            <v-icon>mdi-arrow-left</v-icon>
+          </v-btn>
           <h2>{{ patient.givenname }} {{ patient.surname }} &mdash; {{ meds.name }}</h2>
         </v-row>
         <v-row
