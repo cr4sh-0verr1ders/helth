@@ -16,7 +16,7 @@
             cols="12"
             sm="10"
             md="6"
-            ><v-card @click="expand()">
+            ><v-card @click="expand(entry.id)">
           <v-card-title>
             {{ entry.patient.givenname }} {{ entry.patient.surname }} &mdash; {{ entry.meds.name }} ({{ entry.meds.quantity }})
           </v-card-title>
@@ -61,9 +61,12 @@ export default {
         filler(),
       ],
 
-      expand() {
-        // TODO
-      }
+    }
+  },
+  methods: {
+    expand(id) {
+      // TODO
+      this.$router.push(`/details?id=${id}`);
     }
   }
 }
