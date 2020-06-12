@@ -18,7 +18,7 @@
             md="6"
             ><v-card @click="expand(entry.id)">
           <v-card-title>
-            {{ entry.patient.givenname }} {{ entry.patient.surname }} &mdash; {{ entry.meds.name }} ({{ entry.meds.quantity }})
+            {{ entry.patient.givenname }} {{ entry.patient.surname }} &mdash; {{ entry.meds.name }}
           </v-card-title>
           <v-card-subtitle>
             Issued on 12 June 2020
@@ -27,7 +27,12 @@
             </template>
           </v-card-subtitle>
           <v-card-text>
-            Lorem Ipsum Eos est eius cumque. Illum officiis est neque error consequatur eius rerum et. Sint sit quia officiis eum.
+            <p>
+            {{ entry.meds.quantity }} of {{ entry.meds.name }}
+            </p>
+            <p v-if="entry.meds.reason">
+            Reason: {{ entry.meds.reason }}
+            </p>
           </v-card-text>
         </v-card></v-col></v-row>
       </v-container>
@@ -48,7 +53,8 @@ export default {
       meds: {
         name: "Medicine",
         quantity: ((Math.random() * 10) | 0) + " milligrams",
-        repeats: ((Math.random() * 10) | 0)
+        repeats: ((Math.random() * 10) | 0),
+        reason: "He was a bit sick",
       },
     });
 
