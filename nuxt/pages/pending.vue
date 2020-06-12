@@ -1,9 +1,22 @@
 <template>
-  <v-layout>
-    <v-flex>
+  <v-app id="scripting">
+    <v-main>
       <v-container>
+        <v-row
+          justify="center"
+          >
         <v-btn outlined to="/new" color="primary">New Prescription</v-btn>
-        <v-row v-for="entry in prescriptions" v-bind:key="entry.id"><v-col><v-card @click="expand()">
+        </v-row>
+        <v-row
+          v-for="entry in prescriptions"
+          v-bind:key="entry.id"
+          align="center"
+          justify="center"
+          ><v-col
+            cols="12"
+            sm="10"
+            md="6"
+            ><v-card @click="expand()">
           <v-card-title>
             {{ entry.patient.givenname }} {{ entry.patient.surname }} &mdash; {{ entry.meds.name }} ({{ entry.meds.quantity }})
           </v-card-title>
@@ -18,8 +31,8 @@
           </v-card-text>
         </v-card></v-col></v-row>
       </v-container>
-    </v-flex>
-  </v-layout>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
