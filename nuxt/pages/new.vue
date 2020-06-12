@@ -19,7 +19,7 @@
                 </v-col>
                 <v-col>
                   <v-text-field
-                    v-model="doc.foo"
+                    v-model="doc.auth_ref"
                     label="Authorization reference number"
                     required
                   ></v-text-field>
