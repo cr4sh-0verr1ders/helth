@@ -12,7 +12,7 @@ const passport = require("./passport/setup");
 const app = express(); 
 
 // Setup DB 
-const mongoDB = "mongodb://localhost/my_db"; 
+const mongoDB = "mongodb://localhost:27017/my_db"; 
 mongoose.connect(mongoDB, {useNewUrlParser: true}); 
 const db = mongoose.connection; 
 

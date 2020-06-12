@@ -77,20 +77,15 @@ async function register(req, res, next){
 async function queryPres(req, res){
     // Passport Check Authentication 
     // TODO 
-    
-    // We expect to see 
-    // 1. Auth Token?
-    // 2. Identification 
+    // Check if authorised to query, i.e. check user type 
     
     // Will return 
     // 1. List of prescription requests that the doctor is "scheduled" to review 
     
-    // Validate 
-    if(req.body["id"]){
-        
-    }
+    // Validate passport authentication 
+    
     // Query all 
-    var query = prescriptions_model.find();
+    var query = list_model.find({"owner":});
     res.send("lorem");
 }
 
