@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-
+const prescriptions_model = require("./models/prescriptions");
 
 /* Middleware */
 // Note - Don't call next on middleware that modifies the response body
@@ -12,9 +12,17 @@ router.use(function logCall(req, res, next){
     next(); 
 }); 
 
+/* DUMMY DATA */
+let electronic_prescriptions = {
+    0: {
+        patient_ihi: 1234567890123456
+    }, 
+};
 
+/* Endpoint Functions
+ * Async IO 
+ */ 
 
-/* Endpoint Functions */ 
 // Test Endpoint
 function test(req, res){
     res.status(200); 
@@ -23,35 +31,38 @@ function test(req, res){
 }
 
 // Query Prescription
-function queryPres(req, res){
-    res.status(200); 
+async function queryPres(req, res){
+    // Check Authentication 
+    // TODO 
+
+
     res.send("lorem");
 }
 
 // Create Prescription 
-function createPres(req, res){
+async function createPres(req, res){
     res.status(200); 
     res.send("lorem");
 }
 
 // View Prescription
-function viewPres(req, res){
+async function viewPres(req, res){
     res.status(200); 
     res.send("lorem");
 }
 
 // Fufill Prescription 
-function fufillPres(req, res){
+async function fufillPres(req, res){
     res.status(200); 
     res.send("lorem");
 }
 
 /* Routes (Endpoints - Check Docs) */
 router.post("/test", test);
-router.post("queryPres", queryPres); 
-router.post("createPres", createPres); 
-router.post("viewPres", viewPres); 
-router.post("fufillPres", fufillPres); 
+router.post("/queryPres", queryPres); 
+router.post("/createPres", createPres); 
+router.post("/viewPres", viewPres); 
+router.post("/fufillPres", fufillPres); 
 
 
 module.exports = router;
