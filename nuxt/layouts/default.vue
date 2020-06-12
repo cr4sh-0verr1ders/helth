@@ -9,6 +9,9 @@
     >
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <v-btn text router :to="loginPath">
+        Provider Login
+      </v-btn>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -31,21 +34,10 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
       miniVariant: false,
       right: true,
-      title: 'helth'
+      title: 'helth',
+      loginPath: '/login'
     }
   }
 }
