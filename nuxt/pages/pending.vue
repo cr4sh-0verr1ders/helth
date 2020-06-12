@@ -2,16 +2,7 @@
   <v-layout>
     <v-flex>
       <v-container>
-        <v-row><v-col><v-card>
-          <v-card-actions>
-            <v-btn outlined to="/new" color="primary">
-            New Prescription
-            </v-btn>
-            <!--
-              Add other actions here
-            -->
-          </v-card-actions>
-        </v-card></v-col></v-row>
+        <v-btn outlined to="/new" color="primary">New Prescription</v-btn>
         <v-row v-for="entry in prescriptions" v-bind:key="entry.id"><v-col><v-card @click="expand()">
           <v-card-title>
             {{ entry.patient.givenname }} {{ entry.patient.surname }} &mdash; {{ entry.meds.name }} ({{ entry.meds.quantity }})
