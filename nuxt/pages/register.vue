@@ -20,18 +20,25 @@
                 dark
                 flat
               >
-                <v-toolbar-title>Login form</v-toolbar-title>
+                <v-toolbar-title>Register</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    label="Login"
-                    name="login"
-                    prepend-icon="mdi-account"
+                    label="Name"
+                    name="name"
+                    prepend-icon="mdi-head-outline"
                     type="text"
                   ></v-text-field>
 
+                  <v-text-field
+                    label="Email"
+                    name="email"
+                    prepend-icon="mdi-email"
+                    type="email"
+                  ></v-text-field>
+                  
                   <v-text-field
                     id="password"
                     label="Password"
