@@ -5,6 +5,7 @@
       :clipped-left="clipped"
       fixed
       app
+      color="#58CFC4"
     >
       <v-toolbar-title v-text="title" />
       <v-spacer />
@@ -44,7 +45,7 @@ export default {
       ],
       miniVariant: false,
       right: true,
-      title: 'Cool Script Kiddie Application'
+      title: 'helth'
     }
   }
 }

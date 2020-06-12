@@ -19,7 +19,7 @@
                 </v-col>
                 <v-col>
                   <v-text-field
-                    v-model="doc.foo"
+                    v-model="doc.auth_ref"
                     label="Authorization reference number"
                     required
                   ></v-text-field>
@@ -145,7 +145,7 @@
                 </v-col>
                 <v-col>
                   <v-text-field
-                    v-model="doc.quantity"
+                    v-model="meds.quantity"
                     label="Quantity"
                     required
                   ></v-text-field>
@@ -171,7 +171,7 @@
                 </v-col>
                 <v-col>
                   <v-text-field
-                    v-model="doc.interval"
+                    v-model="meds.interval"
                     label="Repeat Interval"
                   ></v-text-field>
                 </v-col>
