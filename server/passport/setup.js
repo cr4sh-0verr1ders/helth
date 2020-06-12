@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const User = require("../models/users");
+const User = require("../models/Users");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -34,7 +34,6 @@ passport.deserializeUser((id, done) => {
                     });
                     */
 
-// by default, expects to find passworldField at "password" 
 passport.use(
     new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
         // Match User
@@ -43,7 +42,6 @@ passport.use(
                 // Create new User
                 if (!user) {
                     return done(null, false);
-                    // Return other user
                 } else {
                     // Match password
                     bcrypt.compare(password, user.password, (err, isMatch) => {
@@ -63,4 +61,4 @@ passport.use(
     })
 );
 
-module.exports = passport; 
+module.exports = passport;

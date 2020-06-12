@@ -41,7 +41,11 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios'
   ],
+  axios: {
+    baseURL: 'http://localhost:5000',
+  },
   build: {
     /*
     ** You can extend webpack config here

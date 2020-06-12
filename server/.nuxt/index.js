@@ -4,14 +4,13 @@ import ClientOnly from 'vue-client-only'
 import NoSsr from 'vue-no-ssr'
 import { createRouter } from './router.js'
 import NuxtChild from './components/nuxt-child.js'
-import NuxtError from '../layouts/error.vue'
+import NuxtError from './components/nuxt-error.vue'
 import Nuxt from './components/nuxt.js'
 import App from './App.js'
 import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 /* Plugins */
 
-import nuxt_plugin_axios_6b1dd97f from 'nuxt_plugin_axios_6b1dd97f' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_vuetify_6ccb54d5 from 'nuxt_plugin_vuetify_6ccb54d5' // Source: ../plugins/vuetify (mode: 'all')
 
 // Component: <ClientOnly>
@@ -51,7 +50,7 @@ async function createApp (ssrContext) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"titleTemplate":"%s - scripting","title":"scripting","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"My perfect Nuxt.js project"}],"link":[{"rel":"icon","type":"image\u002Fpng","href":"\u002Ffavicon.png"}],"style":[],"script":[]},
+    head: {"titleTemplate":"%s - undefined","title":"","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
 
     router,
     nuxt: {
@@ -150,10 +149,6 @@ async function createApp (ssrContext) {
   }
 
   // Plugin execution
-
-  if (typeof nuxt_plugin_axios_6b1dd97f === 'function') {
-    await nuxt_plugin_axios_6b1dd97f(app.context, inject)
-  }
 
   if (typeof nuxt_plugin_vuetify_6ccb54d5 === 'function') {
     await nuxt_plugin_vuetify_6ccb54d5(app.context, inject)
