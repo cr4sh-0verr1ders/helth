@@ -43,7 +43,6 @@ passport.use(
                 // Create new User
                 if (!user) {
                     return done(null, false);
-                    // Return other user
                 } else {
                     // Match password
                     bcrypt.compare(password, user.password, (err, isMatch) => {

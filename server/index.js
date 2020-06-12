@@ -2,6 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const passport = require("./passport/setup");
 const auth = require("./routes/auth");
@@ -28,7 +29,7 @@ app.use(
         store: new MongoStore({ mongooseConnection: mongoose.connection })
     })
 );
-
+app.use(cors());
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
