@@ -21,7 +21,7 @@
             {{ entry.patient.givenname }} {{ entry.patient.surname }} &mdash; {{ entry.meds.name }} ({{ entry.meds.quantity }})
           </v-card-title>
           <v-card-subtitle>
-            Issued on {{ entry.meds.issuedate }}
+            Issued on 12 June 2020
             <template v-if="entry.meds.repeats > 0">
             &mdash; {{ entry.meds.repeats }} repeats left
             </template>
@@ -48,7 +48,6 @@ export default {
       meds: {
         name: "Medicine",
         quantity: ((Math.random() * 10) | 0) + " milligrams",
-        issuedate: "2020-06-12",
         repeats: ((Math.random() * 10) | 0)
       },
     });
