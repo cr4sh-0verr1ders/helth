@@ -43,6 +43,14 @@
                     id="password"
                     label="Password"
                     name="password"
+                    prepend-icon="mdi-lock-outline"
+                    type="password"
+                  ></v-text-field>
+
+                  <v-text-field
+                    id="confirm-password"
+                    label="Confirm password"
+                    name="confirm-password"
                     prepend-icon="mdi-lock"
                     type="password"
                   ></v-text-field>
