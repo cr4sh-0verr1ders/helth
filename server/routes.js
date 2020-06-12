@@ -96,8 +96,10 @@ async function queryPres(req, res){
         if(err) {
             res.status(500); 
             res.end("Query error"); 
+            return;
         }
         console.log(array[0]); 
+        res.status(200);
         res.json(array[0]);
     });
 }
@@ -140,6 +142,7 @@ async function createPres(req, res){
             console.log(err);
             res.status(500);
             res.end(`Failed to push prescription to database: ${err}`);
+            return;
         } else {
             // We now want to populate the prescriptions list of the current user
             // As well as the prescriptions list of the doctor who is to approve it 
@@ -151,28 +154,31 @@ async function createPres(req, res){
                 if(err) {
                     res.status(500); 
                     res.end(`Failed to check list record: ${err}`);  
+                    return;
                 } 
                 // could use upsert to create if doesn't exist?
                 if(array.length > 0){ // does a list record for this object id already exist? 
                     list_model.findByIdAndUpdate(
                         array._id,
-                        {$push: {"array": req.user._id}},
+                        {$push: {"array": pres.user._id}},
                         {safe: true, new: true},
                         function(err, list){
                             res.status(500);
                             res.end(`Failed to update existing list record: ${err}`);
+                            return;
                         }
                     );
                 } else {
                     // create new list record
                     var list_instance = new list_model({
                         owner: req.user._id,
-                        array: [array._id]
+                        array: [pres._id]
                     });
                     list_instance.save(function(err){
                         if(err){
                             res.status(500);
                             res.end(`Failed to populate list record: ${err}`);
+                            return; 
                         } 
                 
                     });
@@ -188,17 +194,44 @@ async function createPres(req, res){
 
 // View Prescription
 async function viewPres(req, res){
-    res.status(200); 
-    res.send("lorem");
+    // Expects an ObjectID param 
+    if(req.body.presID){
+        var query = prescriptions_model.find({"_id": req.body.presID});
+        query.limit(1); 
+        query.exec(function(err, prescription){
+            if(err) {
+                res.status(500); 
+                res.end(`Query error ${err}`);
+                return
+            }
+            console.log(prescription); 
+            res.status(200);
+            res.json(prescription);
+        });
+    } else {
+        res.status(400);
+        res.end("Missing presID parameter"); 
+        return;
+    }
 }
 
 // Fufill Prescription 
 async function fufillPres(req, res){
     // Check Authentication
+
+    
+    // Check if the prescription is approved. This represents the fact that if not approved,
+    // the prescription would not be on the PDS systems. (it would be dropped). 
     res.status(200); 
     res.send("lorem");
+
+
 }
 
+// Approve Prescription 
+async function fufillPres(req, res){
+
+}
 /* Routes (Endpoints - Check Docs) */
 router.post("/test", test);
 router.get("/test", test); 
