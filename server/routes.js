@@ -87,7 +87,7 @@ async function queryPres(req, res){
     // (or prescriptions belonging to user)
     // {"array":["someobjectid","anotherobjectid",<...>]}
     // Validate passport authentication 
-    
+     
     // Query all; have to specifically exclude object id  
     var query = list_model.find({"owner": req.user._id},{"_id":0});
     query.select('array'); 
@@ -159,8 +159,8 @@ async function createPres(req, res){
                 // could use upsert to create if doesn't exist?
                 if(array.length > 0){ // does a list record for this object id already exist? 
                     list_model.findByIdAndUpdate(
-                        array._id,
-                        {$push: {"array": pres.user._id}},
+                        array[0]._id,
+                        {$push: {"array": pres._id}},
                         {safe: true, new: true},
                         function(err, list){
                             res.status(500);
@@ -202,11 +202,19 @@ async function viewPres(req, res){
             if(err) {
                 res.status(500); 
                 res.end(`Query error ${err}`);
-                return
+                return;
             }
-            console.log(prescription); 
-            res.status(200);
-            res.json(prescription);
+            if(prescription.length > 0){
+
+                console.log(prescription[0]); 
+                res.status(200);
+                res.json(prescription[0]);
+            } else {
+                res.status(500);
+                res.end("Prescription does not exist");
+                return;
+            }
+                
         });
     } else {
         res.status(400);
@@ -216,21 +224,116 @@ async function viewPres(req, res){
 }
 
 // Fufill Prescription 
-async function fufillPres(req, res){
-    // Check Authentication
+async function fulfilPres(req, res){
+    // Check Authorization
+    // TODO
+    // Expects an ObjectID param 
+    if(req.body.presID){
+        var query = prescriptions_model.find({"_id": req.body.presID});
+        query.limit(1); 
+        query.exec(function(err, prescription){
+            if(err) {
+                res.status(500); 
+                res.end(`Query error ${err}`);
+                return
+            }
+            
+            // check if we have something to modify
+            if(prescription.length > 0){
+                // check that the prescription is approved 
+                if(prescription[0].approved){    
+                    // by """fulfilling""" the prescription, we should be archiving the e-prescription and 
+                    // moving it to a PDS. here we just drop it, since hackathon
+                    
+                    prescriptions_model.deleteOne({_id: prescription[0]._id}, function(err,res){
+                        if(err){
+                            res.status(500);
+                            res.end("Failed to delete prescriptions record");
+                        }
+                    }); 
+                   
+                    // we also need to remove referencess in the list collection
+                    var q = list_model.find({array: prescription[0]._id}); 
+                    q.exec(function(err, list){
+                        if(err){
+                            res.status(500);
+                            res.end(`Query error ${err}`);
+                            return;
+                        }
+                        //list_model.deleteMany({array: prescription[0]._id}); // id in array shorthand
+                    
+                        list_model.updateMany(
+                            {array: prescription[0]._id},
+                            {$pull: {"array": prescription[0]._id}},
+                            {safe: true, new: true},
+                            function(err, list){
+                                res.status(500);
+                                res.end(`Failed to remove id from existing list record: ${err}`);
+                                return;
+                            }
+                        );
+                    });
 
-    
-    // Check if the prescription is approved. This represents the fact that if not approved,
-    // the prescription would not be on the PDS systems. (it would be dropped). 
-    res.status(200); 
-    res.send("lorem");
-
-
+                    
+                    res.status(200);
+                    res.end();
+                    return;  
+                
+                } else {
+                    res.status(400);
+                    res.end("Cannot fulfil an unapproved prescription"); 
+                    return;
+                }
+                
+            } else {
+                res.status(500);
+                res.end("Prescription does not exist");
+            }
+        });
+    } else {
+        res.status(400);
+        res.end("Missing presID parameter"); 
+        return;
+    }
 }
 
 // Approve Prescription 
-async function fufillPres(req, res){
+async function approvePres(req, res){
 
+    // Check Authorization
+    // TODO
+    // Expects an ObjectID param 
+    if(req.body.presID){
+        var query = prescriptions_model.find({"_id": req.body.presID});
+        query.limit(1); 
+        query.exec(async function(err, prescription){
+            if(err) {
+                res.status(500); 
+                res.end(`Query error ${err}`);
+                return
+            }
+            
+            // check if we have something to modify
+            if(prescription.length > 0){
+                prescriptions_model.findOneAndUpdate({_id: prescription[0]._id}, {approved: true}, {new: true}, function(err,doc){
+                    if(err){
+                        res.status(500); 
+                        res.end(`Error approving prescription: ${err}`);
+                    }
+                    res.status(200);
+                    res.end();
+                    return; 
+                });
+            } else {
+                res.status(500);
+                res.end("Prescription does not exist");
+            }
+        });
+    } else {
+        res.status(400);
+        res.end("Missing presID parameter"); 
+        return;
+    }
 }
 /* Routes (Endpoints - Check Docs) */
 router.post("/test", test);
@@ -238,7 +341,8 @@ router.get("/test", test);
 router.get("/queryPres", queryPres); 
 router.post("/createPres", createPres); 
 router.post("/viewPres", viewPres); 
-router.post("/fufillPres", fufillPres);
+router.post("/fulfilPres", fulfilPres);
+router.post("/approvePres", approvePres); 
 
 // Authentication Routes
 router.post("/login", login);
