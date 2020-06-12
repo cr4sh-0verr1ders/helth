@@ -5,11 +5,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const passport = require("./passport/setup");
-const auth = require("./routes/auth");
-
+//const auth = require("./routes/auth");
+const custom_routes = require("./routes")
 const app = express();
 const PORT = 5000;
-const MONGO_URI = "mongodb://127.0.0.1:27017/test_db";
+const MONGO_URI = "mongodb://127.0.0.1:27017/helth";
 
 mongoose
     .connect(MONGO_URI, { useNewUrlParser: true })
@@ -35,7 +35,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use("/api/auth", auth);
+//app.use("/api/auth", auth);
+app.use("/api", custom_routes);
 app.get("/", (req, res) => res.send("hello there"));
 
 app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!`));

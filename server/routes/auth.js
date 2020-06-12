@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const test = require("../routes");
 const passport = require("passport");
-const User = require("../models/Users");
+//const User = require("../models/Users");
+
 
 router.post("/test", (req, res, next) => {
     console.log("OMG OMG OMGOGMOGMEWO FMEW");
