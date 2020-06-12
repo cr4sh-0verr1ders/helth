@@ -1,6 +1,6 @@
-# scripting
+# helth
 
-> My perfect Nuxt.js project
+> Delivering prescriptions for the 21st century
 
 ## Build Setup
 
