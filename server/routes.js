@@ -7,7 +7,7 @@ const prescriptions_model = require("./models/prescriptions");
 // Log every endpoint call
 router.use(function logCall(req, res, next){
     // placeholder log to STDOUT 
-    console.log(`Base URL: ${req.baseUrl}`);
+    console.log(`Endpoint: ${req.baseUrl}${req.url}`);
     console.log("Req Body: %j", req.body);
     next(); 
 }); 
@@ -15,7 +15,11 @@ router.use(function logCall(req, res, next){
 /* DUMMY DATA */
 let electronic_prescriptions = {
     0: {
-        patient_ihi: 1234567890123456
+        patient_ihi: 1234567890123456,
+        patient_givenname: "Andrew",
+        patient_surname: "Yu",
+        patient_dob: "2002-02-21",
+        patient_sex: "M",
     }, 
 };
 
