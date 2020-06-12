@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer")
 const QRCode = require("qrcode")
 const crypto = require("crypto")
 
-const address = "prescription.noreply@gmail.com"
+const address = "electronic-prescription@outlook.com"
 const password = "RMQJ6MTj"
 const url = "http://helth.ralismark.xyz/dispense/"
 
@@ -38,7 +38,7 @@ const html = (token, cid, data) => `
 `
 
 const transport = nodemailer.createTransport({
-    service: "Gmail",
+    service: "hotmail",
     auth: {
         user: address,
         pass: password
