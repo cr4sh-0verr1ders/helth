@@ -4,8 +4,11 @@
       <v-form>
         <v-container>
           <v-row><v-col><v-card>
-            <v-card-title id="patient">Patient Details</v-card-title>
-            <v-container>
+            <v-card-title id="patient">
+              <v-app-bar-nav-icon @click="show_patient = !show_patient"></v-app-bar-nav-icon>
+              Patient: {{ patient.givenname }} {{ patient.surname }}
+            </v-card-title>
+            <v-container v-show="show_patient">
               <v-text-field
                 v-model="patient.ihi"
                 label="IHI (Individual Healthcare Identifier)"
@@ -81,8 +84,11 @@
           </v-card></v-col></v-row>
 
           <v-row><v-col><v-card>
-            <v-card-title id="doc">Prescriber Information</v-card-title>
-            <v-container>
+            <v-card-title id="doc">
+              <v-app-bar-nav-icon @click="show_doc = !show_doc"></v-app-bar-nav-icon>
+              Provider Information
+            </v-card-title>
+            <v-container v-show="show_doc">
               <v-row>
                 <v-col>
                   <v-text-field
@@ -176,8 +182,7 @@
               <v-spacer />
               <v-btn
                 color="primary"
-                nuxt
-                to="/inspire"
+                @click="submit"
               >
                 Submit
               </v-btn>
@@ -197,6 +202,8 @@ export default {
       doc: {},
       patient: {},
       meds: {},
+      show_patient: true,
+      show_doc: true,
     }
   }
 }
