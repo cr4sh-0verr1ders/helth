@@ -1,9 +1,9 @@
 var mongoose = require("mongoose")
 var Schema = mongoose.Schema;
 
-// waiting on db schema 
+// can use match regex to do phone number and ihi, va etc validation
 var schema = new Schema({
-    patient_ihi: String,
+    patient_ihi: String, 
     patient_givenname: {type: String, required: [true, "Given name required."]},
     patient_surname: {type: String, required: [true, "Surname required."]},
     patient_dob: {type: Date, required: [true, "Date of birth required."]},
@@ -23,9 +23,14 @@ var schema = new Schema({
     meds_name: {type: String, required: [true, "Medication name required."]},
     meds_quantity: {type: Number, required: [true, "Medication quantity required"], min: [1, "Medication quantity must be greater than 0"]},
     meds_usage: {type: String, required: [true, "Medication usage required."]},
-    med_reason: String,
+    meds_reason: String,
     meds_repeats: {type: Number, required: [true, "Medication repeats required."], min: [0, "Medication repeats must not be negative"]},
     meds_interval: {type: String, required: [true, "Medication interval required."], min: [0, "Medication interval must not be negative"]},
+    // in reality, when approved the prescription gets processed and pushed to a PDS for holding 
+    // but, hackathon so:
+    approved: {type: Boolean, default: false}, 
 });
 
-module.exports = mongoose.model("prescriptions", schema);
+// Compile Model 
+var prescriptions_model = mongoose.model("prescriptions_model", schema);
+module.exports = prescriptions_model; 
