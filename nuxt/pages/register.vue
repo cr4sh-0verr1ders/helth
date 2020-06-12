@@ -56,6 +56,7 @@
                     name="confirm-password"
                     prepend-icon="mdi-lock"
                     type="password"
+                    :rules="[v => v == userInfo.password || 'Does not match password']"
                     v-model="userInfo.confirmedPassword"
                   ></v-text-field>
                 </v-form>
@@ -98,7 +99,7 @@ export default {
   methods: {
     loginServer() {
       if (this.userInfo.password != this.userInfo.confirmedPassword) {
-        // Do something here front end people please. Its 4:50 AM and I'm dying.
+        // Don't do anything. Verification is handled in document.
       } else {
       this.$axios
         .$post('/api/register', {
