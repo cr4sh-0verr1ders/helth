@@ -11,8 +11,6 @@ import {
 import NuxtError from '../layouts/error.vue'
 import NuxtLoading from './components/nuxt-loading.vue'
 
-import '../node_modules/vuetify/dist/vuetify.css'
-
 import _6f6c098b from '../layouts/default.vue'
 
 const layouts = { "_default": sanitizeComponent(_6f6c098b) }
