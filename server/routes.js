@@ -57,18 +57,28 @@ async function login(req, res, next){
 // Register
 async function register(req, res, next){
     if(req.body.email && req.body.username && req.body.password) {
-        const userData = new User({
-            email: req.body.email,
-            username: req.body.username,
-            password: req.body.password
-        })
-        User.create(userData, function (err, user) {
+        User.findOne({email: req.body.email})
+        .exec(function(err, user) {
             if (err) {
-              return next(err)
+                return next(err);
+            } else if (!user) {
+                const userData = new User({
+                    email: req.body.email,
+                    username: req.body.username,
+                    password: req.body.password
+                })
+                User.create(userData, function (err, user) {
+                    if (err) {
+                      return next(err)
+                    } else {
+                        console.log("It worked!!");
+                        return res.status(200).json({ success: `registered ${user.id}` });
+                    }
+                  });
             } else {
-              return res.redirect('/profile');
+                return res.status(401).json({errors: "User already exists"});
             }
-          });
+        })
     } else {
         var err = new Error('All fields required.');
         err.status = 400;

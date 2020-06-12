@@ -56,6 +56,7 @@
                     name="confirm-password"
                     prepend-icon="mdi-lock"
                     type="password"
+                    v-model="userInfo.confirmedPassword"
                   ></v-text-field>
                 </v-form>
               </v-card-text>
@@ -78,7 +79,8 @@ export default {
       userInfo: {
         name: '',
         email: '',
-        password: ''
+        password: '',
+        confirmedPassword: ''
       },
     }
   },
@@ -94,17 +96,12 @@ export default {
     }
   },
   methods: {
-    handleFileUpload() {
-      this.userInfo.music = this.$refs.file.files[0]
-      console.log(this.userInfo.music.type)
-    },
     loginServer() {
-      let formData = new FormData()
-      formData.append('name', this.userInfo.name)
-      formData.append('email', this.userInfo.email)
-      formData.append('password', this.userInfo.password)
+      if (this.userInfo.password != this.userInfo.confirmedPassword) {
+        // Do something here front end people please. Its 4:50 AM and I'm dying.
+      } else {
       this.$axios
-        .$post('/api/auth/register', {
+        .$post('/api/register', {
           "email": this.userInfo.email,
           "username": this.userInfo.name,
           "password": this.userInfo.password
@@ -117,11 +114,7 @@ export default {
         })
         })
     }
+    }
   }
 }
 </script>
-        this.$axios
-          .$post('/api/auth/test', formData)
-          .then(response =>{
-            console.log(response)
-          })
