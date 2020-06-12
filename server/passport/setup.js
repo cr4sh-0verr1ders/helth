@@ -34,7 +34,7 @@ passport.deserializeUser((id, done) => {
                     });
                     */
 
-
+// by default, expects to find passworldField at "password" 
 passport.use(
     new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
         // Match User

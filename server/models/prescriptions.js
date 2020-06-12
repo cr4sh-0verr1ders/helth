@@ -1,6 +1,8 @@
 var mongoose = require("mongoose")
 var Schema = mongoose.Schema;
 
+// If we were doing this proper proper would be smart to look at taking advantage of virtuals, little to no overhead for less space complexity 
+//
 // can use match regex to do phone number and ihi, va etc validation
 var schema = new Schema({
     patient_ihi: String, 
