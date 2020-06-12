@@ -8,15 +8,15 @@
           <v-btn text icon to="/pending">
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
-          <h2>{{ patient.givenname }} {{ patient.surname }} &mdash; {{ meds.name }}</h2>
+          <h2>{{ record.patient_givenname }} {{ record.patient_surname }} &mdash; {{ record.meds_name }}</h2>
         </v-row>
         <v-row
           justify="center"
           >
           <h3>
             Issued on 12 June 2020
-            <template v-if="meds.repeats > 0">
-            &mdash; {{ meds.repeats }} repeats left
+            <template v-if="record.meds_repeats > 0">
+            &mdash; {{ record.meds_repeats }} repeats left
             </template>
           </h3>
         </v-row>
@@ -59,60 +59,52 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  data() {
+  async asyncData({ route }) {
 
-    let id = +this.$route.query.id;
+    let id = route.params.id;
 
-    let meds = {
-      name: "Placebo",
-    };
-    let patient = {
-      givenname: "Joe",
-      surname: "Smith",
-    };
-    let doc = {
-    };
+    let record = await axios.post('/api/viewPres', { presID: id })
 
     let fields = {
       "Medication": {
-        "Medication Name":                  meds.name,
-        "Strength":                         meds.strength,
-        "Quantity":                         meds.quantity,
-        "Directions for Use":               meds.usage,
-        "Prescription Reason":              meds.reason,
-        "Repeats":                          meds.repeats,
-        "Repeat Interval":                  meds.interval,
+        "Medication Name":                  record.meds_name,
+        "Strength":                         record.meds_strength,
+        "Quantity":                         record.meds_quantity,
+        "Directions for Use":               record.meds_usage,
+        "Prescription Reason":              record.meds_reason,
+        "Repeats":                          record.meds_repeats,
+        "Repeat Interval":                  record.meds_interval,
       },
       "Patient": {
-        "Individual Healthcare Identifier": patient.ihi,
-        "Given Name":                       patient.givenname,
-        "Family Name":                      patient.surname,
-        "Date of Birth":                    patient.dob,
-        "Sex":                              patient.sex,
-        "Address":                          patient.addr1,
-        "Mobile Number":                    patient.phone,
-        "Email Address":                    patient.email,
-        "DVA File Number":                  patient.dva,
-        "Medicare Number":                  patient.medicare,
-        "IRN":                              patient.medicare_irn,
+        "Individual Healthcare Identifier": record.patient_ihi,
+        "Given Name":                       record.patient_givenname,
+        "Family Name":                      record.patient_surname,
+        "Date of Birth":                    record.patient_dob,
+        "Sex":                              record.patient_sex,
+        "Address":                          record.patient_addr1,
+        "Mobile Number":                    record.patient_phone,
+        "Email Address":                    record.patient_email,
+        "DVA File Number":                  record.patient_dva,
+        "Medicare Number":                  record.patient_medicare,
+        "IRN":                              record.patient_medicare_irn,
       },
       "Provider": {
-        "Healthcare Provider Idenfitier":   doc.hpi,
-        "Authorization reference number":   doc.auth_ref,
-        "Name":                             doc.name,
-        "Address":                          doc.address,
-        "Phone Number":                     doc.phone,
-        "Specialist Qualification":         doc.qualification,
+        "Healthcare Provider Idenfitier":   record.doc_hpi,
+        "Authorization reference number":   record.doc_auth_ref,
+        "Name":                             record.doc_name,
+        "Address":                          record.doc_address,
+        "Phone Number":                     record.doc_phone,
+        "Specialist Qualification":         record.doc_qualification,
       }
     };
 
     return {
       groups: fields,
-      patient: patient,
-      doc: doc,
-      meds: meds,
       id: id,
+      record: record,
       link_new: `/new?doc=${id}&patient=${id}`,
       link_repeat: `/new?doc=${id}&patient=${id}&meds=${id}`,
     }
