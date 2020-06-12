@@ -7,7 +7,12 @@ Vue.use(Vuetify)
 export default ctx => {
   const vuetify = new Vuetify({
     theme: {
-      dark: false // From 2.0 You have to select the theme dark or light here
+      themes: {
+        light: {
+          primary: "#30AA89"
+        }
+      }
+       // From 2.0 You have to select the theme dark or light here
     }
   })
 
