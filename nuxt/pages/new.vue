@@ -4,6 +4,50 @@
       <v-form>
         <v-container>
           <v-row><v-col><v-card>
+            <v-card-title id="doc">
+              <v-app-bar-nav-icon @click="show_doc = !show_doc"></v-app-bar-nav-icon>
+              Provider Information
+            </v-card-title>
+            <v-container v-show="show_doc">
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    v-model="doc.hpi"
+                    label="Healthcare Provider Idenfitier"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    v-model="doc.foo"
+                    label="Authorization reference number"
+                    required
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-text-field
+                v-model="doc.name"
+                label="Name"
+                required
+              ></v-text-field>
+              <v-textarea
+                v-model="doc.address"
+                label="Address"
+                required
+              ></v-textarea>
+              <v-text-field
+                v-model="doc.phone"
+                label="Phone Number"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="doc.qualification"
+                label="Specialist Qualification (if applicable)"
+              ></v-text-field>
+            </v-container>
+          </v-card></v-col></v-row>
+
+          <v-row><v-col><v-card>
             <v-card-title id="patient">
               <v-app-bar-nav-icon @click="show_patient = !show_patient"></v-app-bar-nav-icon>
               Patient: {{ patient.givenname }} {{ patient.surname }}
@@ -84,55 +128,11 @@
           </v-card></v-col></v-row>
 
           <v-row><v-col><v-card>
-            <v-card-title id="doc">
-              <v-app-bar-nav-icon @click="show_doc = !show_doc"></v-app-bar-nav-icon>
-              Provider Information
-            </v-card-title>
-            <v-container v-show="show_doc">
-              <v-row>
-                <v-col>
-                  <v-text-field
-                    v-model="doc.hpi"
-                    label="Healthcare Provider Idenfitier"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col>
-                  <v-text-field
-                    v-model="doc.foo"
-                    label="Authorization reference number"
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-text-field
-                v-model="doc.name"
-                label="Name"
-                required
-              ></v-text-field>
-              <v-textarea
-                v-model="doc.address"
-                label="Address"
-                required
-              ></v-textarea>
-              <v-text-field
-                v-model="doc.phone"
-                label="Phone Number"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="doc.qualification"
-                label="Specialist Qualification (if applicable)"
-              ></v-text-field>
-            </v-container>
-          </v-card></v-col></v-row>
-
-          <v-row><v-col><v-card>
             <v-card-title id="meds">Prescription</v-card-title>
             <v-container>
               <v-text-field
                 v-model="meds.name"
-                label="Name"
+                label="Medication Name"
                 required
               ></v-text-field>
               <v-row>
@@ -203,7 +203,7 @@ export default {
       patient: {},
       meds: {},
       show_patient: true,
-      show_doc: true,
+      show_doc: false,
     }
   }
 }
