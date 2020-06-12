@@ -4,7 +4,7 @@
       <v-container>
         <v-row><v-col><v-card>
           <v-card-actions>
-            <v-btn to="/new">
+            <v-btn outlined to="/new" color="primary">
             New Prescription
             </v-btn>
             <!--
@@ -12,7 +12,7 @@
             -->
           </v-card-actions>
         </v-card></v-col></v-row>
-        <v-row v-for="entry in prescriptions"><v-col><v-card @click="expand()">
+        <v-row v-for="entry in prescriptions" v-bind:key="entry.id"><v-col><v-card @click="expand()">
           <v-card-title>
             {{ entry.patient.givenname }} {{ entry.patient.surname }} &mdash; {{ entry.meds.name }} ({{ entry.meds.quantity }})
           </v-card-title>
