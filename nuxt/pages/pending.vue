@@ -18,20 +18,20 @@
             md="6"
             ><v-card @click="expand(entry.id)">
           <v-card-title>
-            {{ entry.patient.givenname }} {{ entry.patient.surname }} &mdash; {{ entry.meds.name }}
+            {{ entry.patient_givenname }} {{ entry.patient_surname }} &mdash; {{ entry.meds_name }}
           </v-card-title>
           <v-card-subtitle>
             Issued on 12 June 2020
-            <template v-if="entry.meds.repeats > 0">
-            &mdash; {{ entry.meds.repeats }} repeats left
+            <template v-if="entry.meds_repeats > 0">
+            &mdash; {{ entry.meds_repeats }} repeats left
             </template>
           </v-card-subtitle>
           <v-card-text>
             <p>
-            {{ entry.meds.quantity }} of {{ entry.meds.name }}
+            {{ entry.meds_quantity }} of {{ entry.meds_name }}
             </p>
-            <p v-if="entry.meds.reason">
-            Reason: {{ entry.meds.reason }}
+            <p v-if="entry.meds_reason">
+            Reason: {{ entry.meds_reason }}
             </p>
           </v-card-text>
         </v-card></v-col></v-row>
@@ -43,6 +43,18 @@
 <script>
 export default {
   data() {
+    this.$axios.$get("/api/queryPres").then(oids => {
+      console.log(oids);
+      let reqs = oids.map(oid => {
+        return this.$axios.$post("/api/viewPres", { presID: oid }).then(record => {
+          record.id = oid;
+          return record;
+        });
+      });
+      Promise.all(reqs).then(records => {
+        this.data.prescriptions = records;
+      });
+    });
 
     let filler = () => ({
       id: (Math.random() * 10) | 0,
