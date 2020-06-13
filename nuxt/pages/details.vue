@@ -62,11 +62,11 @@
 import axios from 'axios'
 
 export default {
-  async asyncData({ route }) {
+  data() {
+    let id = this.$route.query.id;
+    console.log(id, this);
 
-    let id = route.params.id;
-
-    let record = await axios.post('/api/viewPres', { presID: id })
+    this.$axios.$post('/api/viewPres', { presID: id }).then(record => {
 
     let fields = {
       "Medication": {
@@ -101,15 +101,17 @@ export default {
       }
     };
 
+      this.groups = fields;
+      this.record = record;
+      console.log(this);
+  })
     return {
-      groups: fields,
+      record: {},
+      groups: {},
       id: id,
-      record: record,
       link_new: `/new?doc=${id}&patient=${id}`,
       link_repeat: `/new?doc=${id}&patient=${id}&meds=${id}`,
     }
-  },
-  methods: {
   }
 }
 </script>
