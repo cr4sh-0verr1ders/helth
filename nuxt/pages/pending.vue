@@ -43,10 +43,13 @@
 <script>
 export default {
   data() {
-    this.$axios.$get("/api/queryPres").then(oids => {
+    this.$axios.$get("/api/test", { withCredentials: true }).then(dat => {
+      console.log("tested");
+    });
+    this.$axios.$get("/api/queryPres", { withCredentials: true }).then(oids => {
       console.log(oids);
       let reqs = oids.map(oid => {
-        return this.$axios.$post("/api/viewPres", { presID: oid }).then(record => {
+        return this.$axios.$post("/api/viewPres", { presID: oid, withCredentials: true }).then(record => {
           record.id = oid;
           return record;
         });

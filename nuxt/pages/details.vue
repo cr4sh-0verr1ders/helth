@@ -66,7 +66,7 @@ export default {
     let id = this.$route.query.id;
     console.log(id, this);
 
-    this.$axios.$post('/api/viewPres', { presID: id }).then(record => {
+    this.$axios.$post('/api/viewPres', { presID: id, withCredentials: true }).then(record => {
 
     let fields = {
       "Medication": {
