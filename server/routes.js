@@ -98,6 +98,11 @@ async function queryPres(req, res){
     // {"array":["someobjectid","anotherobjectid",<...>]}
     // Validate passport authentication 
      
+    if(!req.user){
+        // not authenticated
+        req.status(400);
+        req.end("Not authenticated");
+    }
     // Query all; have to specifically exclude object id  
     var query = list_model.find({"owner": req.user._id},{"_id":0});
     query.select('array'); 
@@ -119,6 +124,11 @@ async function createPres(req, res){
     // Expects post parameters corresponding to prescription schema 
     // Validation
     // TODO
+    if(!req.user){
+        // not authenticated
+        req.status(400);
+        req.end("Not authenticated");
+    }
     console.log(req.body);
     var pres_instance = new prescriptions_model({
         patient_ihi: req.body.patient_ihi,
@@ -205,6 +215,11 @@ async function createPres(req, res){
 // View Prescription
 async function viewPres(req, res){
     // Expects an ObjectID param 
+    if(!req.user){
+        // not authenticated
+        req.status(400);
+        req.end("Not authenticated");
+    }
     if(req.body.presID){
         var query = prescriptions_model.find({"_id": req.body.presID});
         query.limit(1); 
@@ -237,6 +252,11 @@ async function viewPres(req, res){
 async function fulfilPres(req, res){
     // Check Authorization
     // TODO
+    if(!req.user){
+        // not authenticated
+        req.status(400);
+        req.end("Not authenticated");
+    }
     // Expects an ObjectID param 
     if(req.body.presID){
         var query = prescriptions_model.find({"_id": req.body.presID});
@@ -311,7 +331,11 @@ async function fulfilPres(req, res){
 async function approvePres(req, res){
 
     // Check Authorization
-    // TODO
+    if(!req.user){
+        // not authenticated
+        req.status(400);
+        req.end("Not authenticated");
+    }
     // Expects an ObjectID param 
     if(req.body.presID){
         var query = prescriptions_model.find({"_id": req.body.presID});
