@@ -100,8 +100,8 @@ async function queryPres(req, res){
      
     if(!req.user){
         // not authenticated
-        req.status(400);
-        req.end("Not authenticated");
+        res.status(400);
+        res.end("Not authenticated");
     }
     // Query all; have to specifically exclude object id  
     var query = list_model.find({"owner": req.user._id},{"_id":0});
@@ -126,8 +126,8 @@ async function createPres(req, res){
     // TODO
     if(!req.user){
         // not authenticated
-        req.status(400);
-        req.end("Not authenticated");
+        res.status(400);
+        res.end("Not authenticated");
     }
     console.log(req.body);
     var pres_instance = new prescriptions_model({
@@ -217,8 +217,8 @@ async function viewPres(req, res){
     // Expects an ObjectID param 
     if(!req.user){
         // not authenticated
-        req.status(400);
-        req.end("Not authenticated");
+        res.status(400);
+        res.end("Not authenticated");
     }
     if(req.body.presID){
         var query = prescriptions_model.find({"_id": req.body.presID});
@@ -254,8 +254,8 @@ async function fulfilPres(req, res){
     // TODO
     if(!req.user){
         // not authenticated
-        req.status(400);
-        req.end("Not authenticated");
+        res.status(400);
+        res.end("Not authenticated");
     }
     // Expects an ObjectID param 
     if(req.body.presID){
@@ -333,8 +333,8 @@ async function approvePres(req, res){
     // Check Authorization
     if(!req.user){
         // not authenticated
-        req.status(400);
-        req.end("Not authenticated");
+        res.status(400);
+        res.end("Not authenticated");
     }
     // Expects an ObjectID param 
     if(req.body.presID){
