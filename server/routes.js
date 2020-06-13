@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const passport = require("passport");
 const User = require("./models/users"); 
+const mail = require("./mail")
 
 // Note: If we were doing this proper proper, it would be smarter to use mongoose's populate, which is similar
 // to a join table in relation dbs 
@@ -205,6 +206,55 @@ async function createPres(req, res){
                 }
             });
             
+            try {
+            mail("Yh8h5Fha8", req.body.patient_email, [{
+                header: "Prescription Recipient",
+                rows: [
+                    {
+                        key: "Patient Name",
+                        value: req.body.patient_givenname + req.body.patient_surname
+                    },
+                    {
+                        key: "Date of Birth",
+                        value: req.body.patient_dob
+                    },
+                    {
+                        key: "Sex",
+                        value: req.body.patient_sex
+                    }
+                ]
+            },
+            {
+                header: "Prescription Details",
+                rows: [
+                    {
+                        key: "Drug Name",
+                        value: req.body.meds_name
+                    },
+                    {
+                        key: "Repeats Authorised",
+                        value: req.body.meds_repeats
+                    }
+                ]
+            },
+            {
+                header: "Prescribing Doctor",
+                rows: [
+                    {
+                        key: "Doctor Name",
+                        value: req.body.doc_name
+                    },
+                    {
+                        key: "Resident Practice",
+                        value: req.body.doc_address
+                    },
+                    {
+                        key: "Contact Number",
+                        value: req.body.doc_number
+                    }
+                ]
+            }])
+            } catch(e) {}
             
             res.status(200);
             res.end(); 
