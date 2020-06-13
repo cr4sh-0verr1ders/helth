@@ -103,6 +103,7 @@ async function queryPres(req, res){
         res.status(400);
         res.end("Not authenticated");
     }
+    console.log(req.user);
     // Query all; have to specifically exclude object id  
     var query = list_model.find({"owner": req.user._id},{"_id":0});
     query.select('array'); 
