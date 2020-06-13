@@ -5,7 +5,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session); 
 const prescriptions_model = require("./models/prescriptions");
 const list_model = require("./models/list");
-
+const cors = require("cors");
 const passport = require("./passport/setup");
 //const auth = require("./routes/auth"); 
 
@@ -27,13 +27,21 @@ db.on("error", console.error.bind(console, "MongoDB Error: "));
 db.once("open", function(){
     console.log(`Connected to MongoDB at ${mongoDB}`);
 });
+// enable CORS
+var corsOptions = {
+    origin: "http://localhost:3000",
+    optionSuccessStatus: 200,
+    credentials: true,
+}
+
+app.use(cors(corsOptions));
 // Initialise Express Session
 // Session cookie name is connect.sid 
 app.use(
     session({
         secret: "very secret this is",
         resave: false, // dont force cookie to "save" everytime
-        saveUninitialized: true,// save even if does not deviate from default session object
+        saveUninitialized: false,// save even if does not deviate from default session object
         store: new MongoStore({ mongooseConnection: mongoose.connection }), 
     })
 );
@@ -111,7 +119,7 @@ const ObjectId = mongoose.Types.ObjectId;
 //    
 //});
 
-const port = 8080; 
+const port = 5000; 
 const server = app.listen(port, ()=>{
     console.log(`Listening on port ${port}`)
 }); 
